@@ -1,85 +1,34 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+  <div class="mySwiper">
+    <swiper :options="swiperOption"
+            ref="mySwiper"
+            class="swiper-cont">
+      <swiper-slide v-for="(item,index) in picList"
+                    :key="index"
+                    class="fullImg">
+        <div>
+          <span class="showBig">查看大图</span>
+          <div>{{ item }}</div>
+          <span class="bottomTime">{{index}}</span>
+        </div>
+      </swiper-slide>
+      <!-- <div class="swiper-button-prev"
+                       slot="button-prev"
+                       @click.stop="prev()"
+                       v-show="swiperBtn"></div>
+                  <div class="swiper-button-next"
+                       slot="button-next"
+                       @click.stop="next()"
+                       v-show="swiperBtn"></div> -->
+    </swiper>
+    <div class="prev"
+         @click="prev"
+         v-show="swiperBtn && picList.length > 0">
+    </div>
+    <div class="next"
+         @click="next"
+         v-show="swiperBtn && picList.length > 0">
+    </div>
   </div>
 </template>
 
@@ -88,26 +37,66 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      picList: [1, 2, 3, 4],
+      swiperBtn: false, // 默认隐藏
+      swiperOption: {
+        // initialSlide: 4, // 设定初始化时slide的索引
+        spaceBetween: 30, // 在silde之间的距离
+        slidesPerView: 1,
+        keyboard: false,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+          hideOnClick: false,
+          disabledClass: 'my-button-disabled',
+          hiddenClass: 'my-button-hidden'
+        },
+        on: {
+          // 使用es6的箭头函数，使this指向vue对象
+          click: () => {
+            // 通过$refs获取对应的swiper对象
+            // let swiper = this.$refs.mySwiper.swiper;
+            // let i = swiper.realIndex;
+          }
+          // keyPress: function (event) {
+          //   let i = this.swiper.realIndex;
+          //   if (event === 37) {
+          //     // this.prev();
+          //     // this.getImg(-1);
+          //     this.exitTime = this.picList[i].uploadTime;
+          //   } else if (event === 39) {
+          //     // this.getImg(1);
+          //     this.exitTime = this.picList[i].uploadTime;
+          //     // this.next();
+          //   }
+          // }.bind(this)
+        }
+      }
+    }
+  },
+  methods: {
+    prev () {
+    },
+    next () {
+
     }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+<style lang="stylus" rel="stylesheet/stylus">
+.mySwiper
+  .swiper-cont
+    width 400px
+    height 200px
+    .swiper-wrapper
+      .fullImg
+        width 400px
+        height 200px
+        background-color #cccccc
 </style>
